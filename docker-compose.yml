@@ -6,7 +6,7 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     ports:
-      - '8080:8080'
+      - '3000:8080'
     environment:
       # Core Configuration
       - OM_PORT=${OM_PORT:-8080}
@@ -118,7 +118,7 @@ services:
       - OM_KEYWORD_BOOST=${OM_KEYWORD_BOOST:-2.5}
       - OM_KEYWORD_MIN_LENGTH=${OM_KEYWORD_MIN_LENGTH:-3}
     volumes:
-      - openmemory_data:/data
+      - ./data:/data
     restart: unless-stopped
     healthcheck:
       test: ['CMD', 'curl', '-f', 'http://localhost:8080/health']

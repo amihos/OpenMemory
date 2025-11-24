@@ -62,6 +62,7 @@ const fuse_vecs = (syn: number[], sem: number[]): number[] => {
 
 export async function embedForSector(t: string, s: string): Promise<number[]> {
     if (!sector_configs[s]) throw new Error(`Unknown sector: ${s}`);
+    console.error(`[EMBED-DBG] tier=${tier}, emb_kind=${env.emb_kind}`);
     if (tier === "hybrid") return gen_syn_emb(t, s);
     if (tier === "smart" && env.emb_kind !== "synthetic") {
         const syn = gen_syn_emb(t, s),
