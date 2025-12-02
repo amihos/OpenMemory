@@ -97,4 +97,10 @@ export const env = {
     summary_layers: num(process.env.OM_SUMMARY_LAYERS, 3),
     keyword_boost: num(process.env.OM_KEYWORD_BOOST, 2.5),
     keyword_min_length: num(process.env.OM_KEYWORD_MIN_LENGTH, 3),
+    // Claude connector settings
+    claude_connector_enabled: (process.env.OM_CLAUDE_CONNECTOR_ENABLED ?? "true") !== "false",
+    claude_client_id: str(process.env.OM_CLAUDE_CLIENT_ID, "claude-web"),
+    claude_token_expiry: num(process.env.OM_CLAUDE_TOKEN_EXPIRY, 3600),
+    claude_max_sessions: num(process.env.OM_CLAUDE_MAX_SESSIONS, 100),
+    public_url: process.env.OM_PUBLIC_URL || "",
 };

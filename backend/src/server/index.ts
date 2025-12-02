@@ -2,6 +2,7 @@ const server = require("./server.js");
 import { env, tier } from "../core/cfg";
 import { run_decay_process, prune_weak_waypoints } from "../memory/hsg";
 import { mcp } from "../ai/mcp";
+import { claude_connector } from "../ai/claude-connector";
 import { routes } from "./routes";
 import {
     authenticate_api_request,
@@ -66,6 +67,9 @@ if (process.env.OM_LOG_AUTH === "true") {
 routes(app);
 
 mcp(app);
+if (env.claude_connector_enabled) {
+    claude_connector(app);
+}
 if (env.mode === "langgraph") {
     console.log("[MODE] LangGraph integration enabled");
 }
