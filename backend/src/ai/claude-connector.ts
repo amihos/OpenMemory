@@ -590,7 +590,11 @@ export function claude_connector(app: any) {
         register_oauth_client(
             "claude-web",
             "Claude Web Client",
-            ["https://claude.ai/oauth/callback", "http://localhost:3000/oauth/callback"]
+            [
+                "https://claude.ai/api/mcp/auth_callback",  // Official Claude.ai callback
+                "https://claude.com/api/mcp/auth_callback", // Future Claude callback
+                "http://localhost:3000/oauth/callback",     // Local development
+            ]
         );
     }
 

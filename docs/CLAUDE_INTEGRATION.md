@@ -2,6 +2,27 @@
 
 This guide explains how to connect OpenMemory to Claude.ai web to give Claude persistent memory across conversations.
 
+## Architecture
+
+OpenMemory acts as a **Remote MCP Server** that Claude.ai connects to over the internet:
+
+```
+┌─────────────────┐         ┌──────────────────┐         ┌─────────────────┐
+│   Claude.ai     │ ──────► │  Internet/ngrok  │ ──────► │  OpenMemory     │
+│   (MCP Client)  │         │  (Tunnel/Cloud)  │         │  (Remote MCP    │
+│                 │ ◄────── │                  │ ◄────── │   Server)       │
+└─────────────────┘         └──────────────────┘         └─────────────────┘
+```
+
+**How it works:**
+1. You run OpenMemory locally (or deploy to a server)
+2. Expose it to the internet (via ngrok, Railway, Render, etc.)
+3. Add it to Claude.ai as a "Custom Connector" in Settings
+4. Claude.ai connects to your OpenMemory instance via MCP protocol
+5. Claude can now store and retrieve memories across conversations
+
+**Requirements:** Claude.ai Pro, Max, Team, or Enterprise plan (custom connectors not available on Free plan)
+
 ## Overview
 
 OpenMemory provides a **Model Context Protocol (MCP)** connector that allows Claude.ai to:
@@ -57,13 +78,15 @@ OM_PUBLIC_URL=https://your-server-url.com
 
 ### 4. Connect to Claude.ai
 
-1. Go to [claude.ai](https://claude.ai)
-2. Open **Settings** → **Integrations** → **MCP Servers**
-3. Click **Add Server**
-4. Enter your server URL: `https://your-server-url.com`
-5. Claude will discover the server via `/.well-known/mcp.json`
-6. Complete OAuth authorization when prompted
+1. Go to [claude.ai](https://claude.ai) (requires Pro, Max, Team, or Enterprise plan)
+2. Open **Settings** → **Connectors**
+3. Click **Add Connector** or **Add MCP Server**
+4. Enter your server URL: `https://your-ngrok-url.ngrok.io` (or your deployed URL)
+5. Complete OAuth authorization when prompted (or use API key if configured)
+6. Select which tools to enable (memory_search, memory_store, etc.)
 7. Done! Claude now has access to your memories
+
+**Note:** Claude.ai supports both SSE and Streamable HTTP transports. SSE support may be deprecated in the future, so the Streamable HTTP endpoint (`/claude/mcp`) is recommended.
 
 ## Authentication
 
